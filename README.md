@@ -4,4 +4,4 @@ En este respositorio se encuentra:
 - Link en el cual se ve el boseto de diagrama entidad relacion
 - PDF en el cual se describe las tablas de nuestra BD
 
-(en link de boseto de entidad relacion presionar boton copiado, para poder acceder de manera correcta)
+(en link de boseto de entidad relacion presionar boton copiado, para poder acceder de manera correcta, posterior en pagina de excalidraw, presionar en reemplazar mi contenido)
