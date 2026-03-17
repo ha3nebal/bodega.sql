@@ -1,0 +1,32 @@
+-- Función: Calcular Margen de Ganancia
+
+use bodegaproducdelmar_db;
+
+DELIMITER //
+CREATE FUNCTION fn_CalcularMargen(id_producto INT) 
+RETURNS DECIMAL(10,2)
+DETERMINISTIC
+BEGIN
+    DECLARE v_precio_venta DECIMAL(10,2);
+    DECLARE v_costo_compra DECIMAL(10,2);
+    
+    SELECT prod_pre INTO v_precio_venta FROM Productos WHERE prod_id = id_producto;
+    SELECT detc_costo_unit INTO v_costo_compra FROM Detalle_Compras 
+    WHERE prod_id = id_producto ORDER BY detc_id DESC LIMIT 1;
+    
+    RETURN (v_precio_venta - v_costo_compra);
+END //
+DELIMITER ;
+
+-- 2. Función: Total Ventas del Día
+
+DELIMITER //
+CREATE FUNCTION fn_TotalVentasDia(fecha DATE) 
+RETURNS DECIMAL(12,2)
+DETERMINISTIC
+BEGIN
+    DECLARE v_total DECIMAL(12,2);
+    SELECT SUM(ven_tot) INTO v_total FROM Ventas WHERE DATE(ven_fec) = fecha;
+    RETURN IFNULL(v_total, 0);
+END //
+DELIMITER ;
