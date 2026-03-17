@@ -1,0 +1,18 @@
+-- 1. Trigger: Descontar Stock por Venta
+use bodegaproducdelmar_db;
+
+CREATE TRIGGER tr_ActualizarStockVenta
+AFTER INSERT ON Detalle_Ventas
+FOR EACH ROW
+UPDATE Productos 
+SET prod_stk = prod_stk - NEW.det_cant
+WHERE prod_id = NEW.prod_id;
+
+-- 2. Trigger: Aumentar Stock por Compra
+
+CREATE TRIGGER tr_ActualizarStockCompra
+AFTER INSERT ON Detalle_Compras
+FOR EACH ROW
+UPDATE Productos 
+SET prod_stk = prod_stk + NEW.detc_cant
+WHERE prod_id = NEW.prod_id;
