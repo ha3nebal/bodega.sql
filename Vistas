@@ -1,0 +1,26 @@
+-- 1. Vista: Inventario Crítico
+use bodegaproducdelmar_db;
+
+CREATE VIEW Vista_Stock_Critico AS
+SELECT p.prod_nom AS Producto, p.prod_stk AS Stock, c.cat_nom AS Categoria
+FROM Productos p
+JOIN Categorias c ON p.cat_id = c.cat_id
+WHERE p.prod_stk < 20;
+
+-- 2. Vista: Resumen de Ventas por Cliente
+
+CREATE VIEW Vista_Ranking_Clientes AS
+SELECT c.cli_nom AS Cliente, COUNT(v.ven_id) AS Total_Visitas, SUM(v.ven_tot) AS Inversion_Total
+FROM Clientes c
+LEFT JOIN Ventas v ON c.cli_id = v.cli_id
+GROUP BY c.cli_id;
+
+-- 3. Vista: Trazabilidad de Compras
+
+CREATE VIEW Vista_Trazabilidad_Proveedores AS
+SELECT com.com_fec AS Fecha, prov.prov_nom AS Proveedor, prov.prov_zona AS Zona, 
+       prod.prod_nom AS Producto, dc.detc_cant AS KG_Ingresados
+FROM Compras com
+JOIN Proveedores prov ON com.prov_id = prov.prov_id
+JOIN Detalle_Compras dc ON com.com_id = dc.com_id
+JOIN Productos prod ON dc.prod_id = prod.prod_id;
