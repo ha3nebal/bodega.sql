@@ -1,0 +1,43 @@
+-- Procedimientos Almacenados (Stored Procedures)
+use bodegaproducdelmar_db;
+
+DELIMITER //
+CREATE PROCEDURE sp_RegistrarVenta(
+    IN p_cli_id INT, 
+    IN p_prod_id INT, 
+    IN p_cantidad DECIMAL(10,2)
+)
+BEGIN
+    DECLARE v_precio DECIMAL(10,2);
+    DECLARE v_subtotal DECIMAL(10,2);
+    DECLARE v_venta_id INT;
+
+    -- Obtener precio actual
+    SELECT prod_pre INTO v_precio FROM Productos WHERE prod_id = p_prod_id;
+    SET v_subtotal = v_precio * p_cantidad;
+
+    -- Insertar Cabecera
+    INSERT INTO Ventas (cli_id, ven_tot) VALUES (p_cli_id, v_subtotal);
+    SET v_venta_id = LAST_INSERT_ID();
+
+    -- Insertar Detalle
+    INSERT INTO Detalle_Ventas (ven_id, prod_id, det_cant, det_subt) 
+    VALUES (v_venta_id, p_prod_id, p_cantidad, v_subtotal);
+END //
+DELIMITER ;
+
+-- 2. Procedimiento: Actualizar Precios por Categoría
+
+DELIMITER //
+CREATE PROCEDURE sp_AjustarPrecioCategoria(
+    IN p_cat_id INT, 
+    IN p_porcentaje DECIMAL(5,2)
+)
+BEGIN
+    -- Ejemplo: p_porcentaje = 1.10 (Sube 10%)
+    UPDATE Productos 
+    SET prod_pre = prod_pre * p_porcentaje
+    WHERE cat_id = p_cat_id;
+END //
+DELIMITER ;
+
