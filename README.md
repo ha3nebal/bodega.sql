@@ -8,4 +8,4 @@ En este respositorio se encuentra:
 
 Actualizacion de repositorio:
 - Se crea script sql de: insercion de datos, vistas, funciones, Stored Procedures, triggers
-- Se adjunta archivo PDF, donde se describe detalladamente las vistas, funciones, Stored Procedures, triggers, que se incluyeron en esta segunda entrega descrbiendo detalladamente sus objetivos 
+- Se adjunta archivo PDF, donde se señalan las vistas, funciones, Stored Procedures, triggers, que se incluyeron en esta segunda entrega descrbiendo detalladamente sus objetivos 
