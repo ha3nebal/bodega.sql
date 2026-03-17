@@ -1,0 +1,103 @@
+-- Datos para Categorías
+INSERT INTO bodegaproducdelmar_db.categorias (cat_nom) VALUES 
+('Pescados Blancos'),
+('Pescados Azules'), 
+('Mariscos'), 
+('Crustáceos'), 
+('Cefalópodos'), 
+('Congelados'), 
+('Ahumados'), 
+('Conservas'), 
+('Algas'), 
+('Salsas y Condimentos');
+
+-- Datos para Productos
+INSERT INTO bodegaproducdelmar_db.productos (prod_nom, prod_pre, prod_stk, cat_id) VALUES 
+('Merluza Gayi', 4500, 50, 1), 
+('Salmón Atlantic', 12000, 30, 2), 
+('Reineta', 6500, 40, 1),
+('Choro Zapato', 3000, 100, 3), 
+('Loco Unitario', 2500, 60, 3), 
+('Jaiba Mora', 8000, 25, 4),
+('Pulpo del Norte', 15000, 15, 5), 
+('Calamar Anillos', 7000, 45, 5), 
+('Cochayuyo Seco', 2000, 80, 9),
+('Congrio Colorado', 9500, 20, 1);
+
+-- Datos para Clientes
+INSERT INTO bodegaproducdelmar_db.clientes (cli_rut, cli_nom, cli_tel) VALUES 
+('11.111.111-1', 'Juan Pérez', '+56911111111'), 
+('22.222.222-2', 'María López', '+56922222222'),
+('33.333.333-3', 'Restaurante El Mar', '+56933333333'), 
+('44.444.444-4', 'Sushimanía', '+56944444444'),
+('55.555.555-5', 'Pescadería Central', '+56955555555'), 
+('66.666.666-6', 'Hotel del Valle', '+56966666666'),
+('77.777.777-7', 'Ana García', '+56977777777'), 
+('88.888.888-8', 'Carlos Ruiz', '+56988888888'),
+('99.999.999-9', 'Catering Express', '+56999999999'), 
+('10.101.101-0', 'Loreto Silva', '+56910101010');
+
+-- Datos para Proveedores
+INSERT INTO bodegaproducdelmar_db.proveedores (prov_rut, prov_nom, prov_contacto, prov_tel, prov_mail, prov_zona) VALUES 
+('70.123.456-k', 'Pesquera del Sur', 'Roberto Meza', '322111', 'ventas@psur.cl', 'Zona Sur'),
+('70.654.321-1', 'Mariscos Coquimbo', 'Elena Paz', '512444', 'contacto@mcoq.cl', 'Zona Norte'),
+('71.000.111-2', 'Distribuidora Algas', 'Luis Jara', '225555', 'comercial@algas.cl', 'Zona Central'),
+('72.333.444-5', 'Importadora Seafood', 'Marta Soto', '229999', 'marta@seafood.cl', 'Internacional'),
+('73.555.666-7', 'Buzos de Valdivia', 'Pedro Rivas', '632888', 'buzos@valdivia.cl', 'Zona Sur'),
+('74.777.888-9', 'Pescadores San Antonio', 'Hugo Cid', '352777', 'santo@puerto.cl', 'Zona Central'),
+('75.999.000-0', 'Cultivos Chiloé', 'Sonia Vera', '652111', 'sonia@chiloe.cl', 'Zona Sur'),
+('76.111.222-3', 'Congelados Mar S.A.', 'Raúl Pino', '224444', 'rpino@marsa.cl', 'Zona Central'),
+('77.222.333-4', 'Ahumados Austral', 'Carla Paz', '672555', 'ventas@austral.cl', 'Zona Austral'),
+('78.444.555-6', 'Caleta Portales', 'Tomas Diaz', '322999', 'tomas@portales.cl', 'Zona Central');
+
+-- Datos para Compras (10 registros)
+INSERT INTO bodegaproducdelmar_db.compras (prov_id, com_fec, com_total, com_obs) VALUES 
+(1, '2024-03-01', 150000, 'Frescura óptima'), 
+(2, '2024-03-02', 85000, 'Marisco vivo'),
+(3, '2024-03-03', 45000, 'Alga seca'), 
+(4, '2024-03-04', 200000, 'Cadena de frío OK'),
+(5, '2024-03-05', 120000, 'Producto artesanal'), 
+(6, '2024-03-06', 95000, 'Pescado de roca'),
+(7, '2024-03-07', 300000, 'Lote premium'), 
+(8, '2024-03-08', 50000, 'Reposición stock'),
+(9, '2024-03-09', 75000, 'Ahumado madera'), 
+(10, '2024-03-10', 110000, 'Directo de caleta');
+
+-- Detalle_Compras (10 registros)
+INSERT INTO bodegaproducdelmar_db.detalle_compras (com_id, prod_id, detc_cant, detc_costo_unit) VALUES 
+(1, 1, 30, 3000), 
+(2, 4, 20, 1500), 
+(3, 9, 10, 1000), 
+(4, 2, 15, 9000), 
+(5, 7, 5, 12000),
+(6, 10, 8, 7000), 
+(7, 5, 50, 1800), 
+(8, 3, 10, 4500), 
+(9, 2, 5, 9500), 
+(10, 1, 15, 3200);
+
+-- Ventas (10 registros)
+INSERT INTO bodegaproducdelmar_db.ventas (cli_id, ven_tot) VALUES 
+(1, 15000), 
+(3, 45000), 
+(2, 8000), 
+(5, 120000), 
+(4, 32000),
+(6, 55000), 
+(3, 28000), 
+(8, 9500), 
+(10, 14000), 
+(7, 6000);
+
+-- Detalle_Ventas (10 registros)
+INSERT INTO bodegaproducdelmar_db.detalle_ventas (ven_id, prod_id, det_cant, det_subt) VALUES 
+(1, 1, 2, 9000), 
+(2, 2, 3, 36000), 
+(3, 4, 2, 6000), 
+(4, 7, 8, 120000), 
+(5, 3, 4, 26000),
+(6, 10, 5, 47500), 
+(7, 6, 3, 24000), 
+(8, 9, 4, 8000), 
+(9, 5, 5, 12500), 
+(10, 1, 1, 4500);
