@@ -1,0 +1,512 @@
+CREATE DATABASE  IF NOT EXISTS `bodegaproducdelmar_db` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+USE `bodegaproducdelmar_db`;
+-- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
+--
+-- Host: localhost    Database: bodegaproducdelmar_db
+-- ------------------------------------------------------
+-- Server version	5.5.5-10.4.28-MariaDB
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `categorias`
+--
+
+DROP TABLE IF EXISTS `categorias`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `categorias` (
+  `cat_id` int(11) NOT NULL AUTO_INCREMENT,
+  `cat_nom` varchar(50) NOT NULL,
+  PRIMARY KEY (`cat_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `categorias`
+--
+
+LOCK TABLES `categorias` WRITE;
+/*!40000 ALTER TABLE `categorias` DISABLE KEYS */;
+INSERT INTO `categorias` VALUES (1,'Pescados Blancos'),(2,'Pescados Azules'),(3,'Mariscos'),(4,'Crustáceos'),(5,'Cefalópodos'),(6,'Congelados'),(7,'Ahumados'),(8,'Conservas'),(9,'Algas'),(10,'Salsas y Condimentos');
+/*!40000 ALTER TABLE `categorias` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `clientes`
+--
+
+DROP TABLE IF EXISTS `clientes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `clientes` (
+  `cli_id` int(11) NOT NULL AUTO_INCREMENT,
+  `cli_rut` varchar(12) NOT NULL,
+  `cli_nom` varchar(100) NOT NULL,
+  `cli_tel` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`cli_id`),
+  UNIQUE KEY `cli_rut` (`cli_rut`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `clientes`
+--
+
+LOCK TABLES `clientes` WRITE;
+/*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
+INSERT INTO `clientes` VALUES (1,'11.111.111-1','Juan Pérez','+56911111111'),(2,'22.222.222-2','María López','+56922222222'),(3,'33.333.333-3','Restaurante El Mar','+56933333333'),(4,'44.444.444-4','Sushimanía','+56944444444'),(5,'55.555.555-5','Pescadería Central','+56955555555'),(6,'66.666.666-6','Hotel del Valle','+56966666666'),(7,'77.777.777-7','Ana García','+56977777777'),(8,'88.888.888-8','Carlos Ruiz','+56988888888'),(9,'99.999.999-9','Catering Express','+56999999999'),(10,'10.101.101-0','Loreto Silva','+56910101010');
+/*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `compras`
+--
+
+DROP TABLE IF EXISTS `compras`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `compras` (
+  `com_id` int(11) NOT NULL AUTO_INCREMENT,
+  `prov_id` int(11) DEFAULT NULL,
+  `com_fec` date NOT NULL,
+  `com_total` decimal(12,2) DEFAULT NULL,
+  `com_obs` text DEFAULT NULL,
+  PRIMARY KEY (`com_id`),
+  KEY `fk_proveedor_compra` (`prov_id`),
+  CONSTRAINT `fk_proveedor_compra` FOREIGN KEY (`prov_id`) REFERENCES `proveedores` (`prov_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `compras`
+--
+
+LOCK TABLES `compras` WRITE;
+/*!40000 ALTER TABLE `compras` DISABLE KEYS */;
+INSERT INTO `compras` VALUES (1,1,'2024-03-01',150000.00,'Frescura óptima'),(2,2,'2024-03-02',85000.00,'Marisco vivo'),(3,3,'2024-03-03',45000.00,'Alga seca'),(4,4,'2024-03-04',200000.00,'Cadena de frío OK'),(5,5,'2024-03-05',120000.00,'Producto artesanal'),(6,6,'2024-03-06',95000.00,'Pescado de roca'),(7,7,'2024-03-07',300000.00,'Lote premium'),(8,8,'2024-03-08',50000.00,'Reposición stock'),(9,9,'2024-03-09',75000.00,'Ahumado madera'),(10,10,'2024-03-10',110000.00,'Directo de caleta');
+/*!40000 ALTER TABLE `compras` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `detalle_compras`
+--
+
+DROP TABLE IF EXISTS `detalle_compras`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `detalle_compras` (
+  `detc_id` int(11) NOT NULL AUTO_INCREMENT,
+  `com_id` int(11) DEFAULT NULL,
+  `prod_id` int(11) DEFAULT NULL,
+  `detc_cant` decimal(10,2) DEFAULT NULL,
+  `detc_costo_unit` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`detc_id`),
+  KEY `fk_compra_maestra` (`com_id`),
+  KEY `fk_producto_compra` (`prod_id`),
+  CONSTRAINT `fk_compra_maestra` FOREIGN KEY (`com_id`) REFERENCES `compras` (`com_id`),
+  CONSTRAINT `fk_producto_compra` FOREIGN KEY (`prod_id`) REFERENCES `productos` (`prod_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `detalle_compras`
+--
+
+LOCK TABLES `detalle_compras` WRITE;
+/*!40000 ALTER TABLE `detalle_compras` DISABLE KEYS */;
+INSERT INTO `detalle_compras` VALUES (1,1,1,30.00,3000.00),(2,2,4,20.00,1500.00),(3,3,9,10.00,1000.00),(4,4,2,15.00,9000.00),(5,5,7,5.00,12000.00),(6,6,10,8.00,7000.00),(7,7,5,50.00,1800.00),(8,8,3,10.00,4500.00),(9,9,2,5.00,9500.00),(10,10,1,15.00,3200.00);
+/*!40000 ALTER TABLE `detalle_compras` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER tr_ActualizarStockCompra
+AFTER INSERT ON Detalle_Compras
+FOR EACH ROW
+UPDATE Productos 
+SET prod_stk = prod_stk + NEW.detc_cant
+WHERE prod_id = NEW.prod_id */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `detalle_ventas`
+--
+
+DROP TABLE IF EXISTS `detalle_ventas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `detalle_ventas` (
+  `det_id` int(11) NOT NULL AUTO_INCREMENT,
+  `ven_id` int(11) DEFAULT NULL,
+  `prod_id` int(11) DEFAULT NULL,
+  `det_cant` decimal(10,2) DEFAULT NULL,
+  `det_subt` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`det_id`),
+  KEY `fk_venta` (`ven_id`),
+  KEY `fk_producto` (`prod_id`),
+  CONSTRAINT `fk_producto` FOREIGN KEY (`prod_id`) REFERENCES `productos` (`prod_id`),
+  CONSTRAINT `fk_venta` FOREIGN KEY (`ven_id`) REFERENCES `ventas` (`ven_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `detalle_ventas`
+--
+
+LOCK TABLES `detalle_ventas` WRITE;
+/*!40000 ALTER TABLE `detalle_ventas` DISABLE KEYS */;
+INSERT INTO `detalle_ventas` VALUES (1,1,1,2.00,9000.00),(2,2,2,3.00,36000.00),(3,3,4,2.00,6000.00),(4,4,7,8.00,120000.00),(5,5,3,4.00,26000.00),(6,6,10,5.00,47500.00),(7,7,6,3.00,24000.00),(8,8,9,4.00,8000.00),(9,9,5,5.00,12500.00),(10,10,1,1.00,4500.00);
+/*!40000 ALTER TABLE `detalle_ventas` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER tr_ActualizarStockVenta
+AFTER INSERT ON Detalle_Ventas
+FOR EACH ROW
+UPDATE Productos 
+SET prod_stk = prod_stk - NEW.det_cant
+WHERE prod_id = NEW.prod_id */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `productos`
+--
+
+DROP TABLE IF EXISTS `productos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `productos` (
+  `prod_id` int(11) NOT NULL AUTO_INCREMENT,
+  `prod_nom` varchar(50) NOT NULL,
+  `prod_pre` decimal(10,2) NOT NULL,
+  `prod_stk` decimal(10,2) DEFAULT 0.00,
+  `cat_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`prod_id`),
+  KEY `fk_categoria` (`cat_id`),
+  CONSTRAINT `fk_categoria` FOREIGN KEY (`cat_id`) REFERENCES `categorias` (`cat_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `productos`
+--
+
+LOCK TABLES `productos` WRITE;
+/*!40000 ALTER TABLE `productos` DISABLE KEYS */;
+INSERT INTO `productos` VALUES (1,'Merluza Gayi',4500.00,50.00,1),(2,'Salmón Atlantic',12000.00,30.00,2),(3,'Reineta',6500.00,40.00,1),(4,'Choro Zapato',3000.00,100.00,3),(5,'Loco Unitario',2500.00,60.00,3),(6,'Jaiba Mora',8000.00,25.00,4),(7,'Pulpo del Norte',15000.00,15.00,5),(8,'Calamar Anillos',7000.00,45.00,5),(9,'Cochayuyo Seco',2000.00,80.00,9),(10,'Congrio Colorado',9500.00,20.00,1);
+/*!40000 ALTER TABLE `productos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `proveedores`
+--
+
+DROP TABLE IF EXISTS `proveedores`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `proveedores` (
+  `prov_id` int(11) NOT NULL AUTO_INCREMENT,
+  `prov_rut` varchar(12) NOT NULL,
+  `prov_nom` varchar(100) NOT NULL,
+  `prov_contacto` varchar(50) DEFAULT NULL,
+  `prov_tel` varchar(15) DEFAULT NULL,
+  `prov_mail` varchar(100) DEFAULT NULL,
+  `prov_zona` varchar(50) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`prov_id`),
+  UNIQUE KEY `prov_rut` (`prov_rut`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `proveedores`
+--
+
+LOCK TABLES `proveedores` WRITE;
+/*!40000 ALTER TABLE `proveedores` DISABLE KEYS */;
+INSERT INTO `proveedores` VALUES (1,'70.123.456-k','Pesquera del Sur','Roberto Meza','322111','ventas@psur.cl','Zona Sur','2026-03-16 23:19:24'),(2,'70.654.321-1','Mariscos Coquimbo','Elena Paz','512444','contacto@mcoq.cl','Zona Norte','2026-03-16 23:19:24'),(3,'71.000.111-2','Distribuidora Algas','Luis Jara','225555','comercial@algas.cl','Zona Central','2026-03-16 23:19:24'),(4,'72.333.444-5','Importadora Seafood','Marta Soto','229999','marta@seafood.cl','Internacional','2026-03-16 23:19:24'),(5,'73.555.666-7','Buzos de Valdivia','Pedro Rivas','632888','buzos@valdivia.cl','Zona Sur','2026-03-16 23:19:24'),(6,'74.777.888-9','Pescadores San Antonio','Hugo Cid','352777','santo@puerto.cl','Zona Central','2026-03-16 23:19:24'),(7,'75.999.000-0','Cultivos Chiloé','Sonia Vera','652111','sonia@chiloe.cl','Zona Sur','2026-03-16 23:19:24'),(8,'76.111.222-3','Congelados Mar S.A.','Raúl Pino','224444','rpino@marsa.cl','Zona Central','2026-03-16 23:19:24'),(9,'77.222.333-4','Ahumados Austral','Carla Paz','672555','ventas@austral.cl','Zona Austral','2026-03-16 23:19:24'),(10,'78.444.555-6','Caleta Portales','Tomas Diaz','322999','tomas@portales.cl','Zona Central','2026-03-16 23:19:24');
+/*!40000 ALTER TABLE `proveedores` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ventas`
+--
+
+DROP TABLE IF EXISTS `ventas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ventas` (
+  `ven_id` int(11) NOT NULL AUTO_INCREMENT,
+  `ven_fec` timestamp NOT NULL DEFAULT current_timestamp(),
+  `cli_id` int(11) DEFAULT NULL,
+  `ven_tot` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`ven_id`),
+  KEY `fk_cliente` (`cli_id`),
+  CONSTRAINT `fk_cliente` FOREIGN KEY (`cli_id`) REFERENCES `clientes` (`cli_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ventas`
+--
+
+LOCK TABLES `ventas` WRITE;
+/*!40000 ALTER TABLE `ventas` DISABLE KEYS */;
+INSERT INTO `ventas` VALUES (1,'2026-03-16 23:19:24',1,15000.00),(2,'2026-03-16 23:19:24',3,45000.00),(3,'2026-03-16 23:19:24',2,8000.00),(4,'2026-03-16 23:19:24',5,120000.00),(5,'2026-03-16 23:19:24',4,32000.00),(6,'2026-03-16 23:19:24',6,55000.00),(7,'2026-03-16 23:19:24',3,28000.00),(8,'2026-03-16 23:19:24',8,9500.00),(9,'2026-03-16 23:19:24',10,14000.00),(10,'2026-03-16 23:19:24',7,6000.00);
+/*!40000 ALTER TABLE `ventas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Temporary view structure for view `vista_ranking_clientes`
+--
+
+DROP TABLE IF EXISTS `vista_ranking_clientes`;
+/*!50001 DROP VIEW IF EXISTS `vista_ranking_clientes`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `vista_ranking_clientes` AS SELECT 
+ 1 AS `Cliente`,
+ 1 AS `Total_Visitas`,
+ 1 AS `Inversion_Total`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `vista_stock_critico`
+--
+
+DROP TABLE IF EXISTS `vista_stock_critico`;
+/*!50001 DROP VIEW IF EXISTS `vista_stock_critico`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `vista_stock_critico` AS SELECT 
+ 1 AS `Producto`,
+ 1 AS `Stock`,
+ 1 AS `Categoria`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `vista_trazabilidad_proveedores`
+--
+
+DROP TABLE IF EXISTS `vista_trazabilidad_proveedores`;
+/*!50001 DROP VIEW IF EXISTS `vista_trazabilidad_proveedores`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `vista_trazabilidad_proveedores` AS SELECT 
+ 1 AS `Fecha`,
+ 1 AS `Proveedor`,
+ 1 AS `Zona`,
+ 1 AS `Producto`,
+ 1 AS `KG_Ingresados`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping routines for database 'bodegaproducdelmar_db'
+--
+/*!50003 DROP FUNCTION IF EXISTS `fn_CalcularMargen` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` FUNCTION `fn_CalcularMargen`(id_producto INT) RETURNS decimal(10,2)
+    DETERMINISTIC
+BEGIN
+    DECLARE v_precio_venta DECIMAL(10,2);
+    DECLARE v_costo_compra DECIMAL(10,2);
+    
+    SELECT prod_pre INTO v_precio_venta FROM Productos WHERE prod_id = id_producto;
+    SELECT detc_costo_unit INTO v_costo_compra FROM Detalle_Compras 
+    WHERE prod_id = id_producto ORDER BY detc_id DESC LIMIT 1;
+    
+    RETURN (v_precio_venta - v_costo_compra);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP FUNCTION IF EXISTS `fn_TotalVentasDia` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` FUNCTION `fn_TotalVentasDia`(fecha DATE) RETURNS decimal(12,2)
+    DETERMINISTIC
+BEGIN
+    DECLARE v_total DECIMAL(12,2);
+    SELECT SUM(ven_tot) INTO v_total FROM Ventas WHERE DATE(ven_fec) = fecha;
+    RETURN IFNULL(v_total, 0);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_AjustarPrecioCategoria` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_AjustarPrecioCategoria`(
+    IN p_cat_id INT, 
+    IN p_porcentaje DECIMAL(5,2)
+)
+BEGIN
+    -- Ejemplo: p_porcentaje = 1.10 (Sube 10%)
+    UPDATE Productos 
+    SET prod_pre = prod_pre * p_porcentaje
+    WHERE cat_id = p_cat_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_RegistrarVenta` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_RegistrarVenta`(
+    IN p_cli_id INT, 
+    IN p_prod_id INT, 
+    IN p_cantidad DECIMAL(10,2)
+)
+BEGIN
+    DECLARE v_precio DECIMAL(10,2);
+    DECLARE v_subtotal DECIMAL(10,2);
+    DECLARE v_venta_id INT;
+
+    -- Obtener precio actual
+    SELECT prod_pre INTO v_precio FROM Productos WHERE prod_id = p_prod_id;
+    SET v_subtotal = v_precio * p_cantidad;
+
+    -- Insertar Cabecera
+    INSERT INTO Ventas (cli_id, ven_tot) VALUES (p_cli_id, v_subtotal);
+    SET v_venta_id = LAST_INSERT_ID();
+
+    -- Insertar Detalle
+    INSERT INTO Detalle_Ventas (ven_id, prod_id, det_cant, det_subt) 
+    VALUES (v_venta_id, p_prod_id, p_cantidad, v_subtotal);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Final view structure for view `vista_ranking_clientes`
+--
+
+/*!50001 DROP VIEW IF EXISTS `vista_ranking_clientes`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `vista_ranking_clientes` AS select `c`.`cli_nom` AS `Cliente`,count(`v`.`ven_id`) AS `Total_Visitas`,sum(`v`.`ven_tot`) AS `Inversion_Total` from (`clientes` `c` left join `ventas` `v` on(`c`.`cli_id` = `v`.`cli_id`)) group by `c`.`cli_id` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `vista_stock_critico`
+--
+
+/*!50001 DROP VIEW IF EXISTS `vista_stock_critico`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `vista_stock_critico` AS select `p`.`prod_nom` AS `Producto`,`p`.`prod_stk` AS `Stock`,`c`.`cat_nom` AS `Categoria` from (`productos` `p` join `categorias` `c` on(`p`.`cat_id` = `c`.`cat_id`)) where `p`.`prod_stk` < 20 */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `vista_trazabilidad_proveedores`
+--
+
+/*!50001 DROP VIEW IF EXISTS `vista_trazabilidad_proveedores`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `vista_trazabilidad_proveedores` AS select `com`.`com_fec` AS `Fecha`,`prov`.`prov_nom` AS `Proveedor`,`prov`.`prov_zona` AS `Zona`,`prod`.`prod_nom` AS `Producto`,`dc`.`detc_cant` AS `KG_Ingresados` from (((`compras` `com` join `proveedores` `prov` on(`com`.`prov_id` = `prov`.`prov_id`)) join `detalle_compras` `dc` on(`com`.`com_id` = `dc`.`com_id`)) join `productos` `prod` on(`dc`.`prod_id` = `prod`.`prod_id`)) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2026-04-14 23:01:13
